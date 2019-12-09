@@ -20,7 +20,7 @@ class Make {
 
             if (Game.pad[90] && this.aux.shotCnt > 5) {
 
-                var a = 55, b = 15;
+                var a = 48, b = 15;
 
                 var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + a, b);
                 Make.shot(x, y, this.pos.r);
