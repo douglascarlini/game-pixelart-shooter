@@ -40,8 +40,8 @@ class Make {
             this.pos.r = this.vel.y;
 
             var shake = 1;
-            this.pos.x = this.pos.x + Calc.rnd((shake * 2), -2);
-            this.pos.y = this.pos.y + Calc.rnd((shake * 2), -2);
+            this.pos.x = this.pos.x + Calc.rnd((shake * 2), -shake);
+            this.pos.y = this.pos.y + Calc.rnd((shake * 2), -shake);
         };
 
         Game.items[item.uid] = item;
