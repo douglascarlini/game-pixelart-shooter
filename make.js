@@ -39,8 +39,9 @@ class Make {
 
             this.pos.r = this.vel.y;
 
-            this.pos.x = this.pos.x + (-2 + Math.random() * 4);
-            this.pos.y = this.pos.y + (-2 + Math.random() * 4);
+            var shake = 1;
+            this.pos.x = this.pos.x + (-shake + Math.random() * (shake2));
+            this.pos.y = this.pos.y + (-shake + Math.random() * (shake * 2));
         };
 
         Game.items[item.uid] = item;
