@@ -122,11 +122,11 @@ class Make {
 
         item.reset = function (min = 0, add = 0) {
 
-            var min = 0.3, max = 1.0;
+            var min = 0.3, max = 1.0, vel = 5;
             this.pos.z = min + Math.random() * (max - min);
             this.pos.y = Math.random() * Game.h;
             this.att.alpha = this.pos.z * 80;
-            this.vel.x = -5 * this.pos.z;
+            this.vel.x = this.pos.z;
             this.pos.x = min + add;
             this.vel.f = 1;
 
