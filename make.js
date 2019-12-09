@@ -124,9 +124,9 @@ class Make {
 
             var min = 0.3, max = 1.0, vel = 5;
             this.pos.z = min + Math.random() * (max - min);
+            this.vel.x = -(this.pos.z * vel / 100);
             this.pos.y = Math.random() * Game.h;
             this.att.alpha = this.pos.z * 80;
-            this.vel.x = this.pos.z;
             this.pos.x = min + add;
             this.vel.f = 1;
 
