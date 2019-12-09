@@ -38,6 +38,9 @@ class Make {
                 this.vel.x += Math.random() * 10;
 
             this.pos.r = this.vel.y;
+
+            this.pos.x = this.pos.x + (-2 + Math.random() * 4);
+            this.pos.y = this.pos.y + (-2 + Math.random() * 4);
         };
 
         Game.items[item.uid] = item;
