@@ -20,7 +20,7 @@ class Make {
 
             if (Game.pad[90] && this.aux.shotCnt > 5) {
 
-                var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + 50, 20);
+                var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + 50, 12);
                 Make.shot(x, y, this.pos.r);
                 Make.capsule(x, y);
 
