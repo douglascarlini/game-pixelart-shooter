@@ -2,6 +2,7 @@ class Calc {
 
     static rnd(max, min = 0, int = false) {
         var val = min + Math.random() * max;
+        return int ? Math.round(val) : val;
     }
 
     static deg(rad) { return rad * Math.PI / 180; }
