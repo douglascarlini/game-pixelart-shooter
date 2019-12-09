@@ -1,6 +1,8 @@
 class Calc {
 
-    static rnd(max, min = 0) { return min + Math.random() * max; }
+    static rnd(max, min = 0, int = false) {
+        var val = min + Math.random() * max;
+    }
 
     static deg(rad) { return rad * Math.PI / 180; }
 
