@@ -24,7 +24,7 @@ class Make {
                 Make.shot(x, y, this.pos.r);
                 Make.capsule(x, y);
 
-                var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + 40, 10);
+                var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + 55, 12);
                 var burst = Make.gunfire(x, y);
 
                 this.aux.shotCnt = 0;
