@@ -102,7 +102,7 @@ class Make {
 
     }
 
-    static gunfire(x, y, s = 45) {
+    static gunfire(x, y, s = 36) {
 
         var item = new Item({ cat: 'gunfire', pos: { x, y }, siz: { w: s, h: s }, spr: { img: Game.img.gunfire, w: s, h: s } });
 
