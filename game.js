@@ -4,7 +4,7 @@ class Game {
 
         Game.scale = 1;
 
-        Game.img = { ship: null, shot: null, fire: null, star: null, capsule: null, gunfire: null, asteroid: null };
+        Game.img = { ship: null, shot: null, fire: null, star: null, capsule: null, gunfire: null };
         Game.pad = { 37: false, 38: false, 39: false, 40: false, 90: false };
         window.addEventListener('keydown', Game.key1, false);
         window.addEventListener('keyup', Game.key0, true);
@@ -34,13 +34,13 @@ class Game {
 
         for (let i in Game.img) {
             var img = new Image();
-            img.src = `${i}.png`;
+            img.src = `assets/${i}.png`;
             Game.img[i] = img;
         }
 
         for (let i in Game.snd) {
             var snd = new Audio();
-            snd.src = `${i}.wav`;
+            snd.src = `assets/${i}.wav`;
             Game.snd[i] = snd;
         }
 

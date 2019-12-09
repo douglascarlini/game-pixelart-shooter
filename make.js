@@ -138,27 +138,4 @@ class Make {
 
     }
 
-    static asteroid() {
-
-        var item = new Item({ cat: 'asteroid', siz: { w: 640, h: 520 }, spr: { img: Game.img.asteroid } });
-
-        item.custom = function () { if (this.pos.x < 0) this.reset(Game.w / 2); }
-
-        item.reset = function (add = 0) {
-
-            this.pos.y = Math.random() * Game.h;
-            this.vel.r = Calc.rnd(2, -1);
-            this.pos.x = Game.w + add;
-            this.vel.x = -this.pos.z;
-            this.pos.z = 0.1;
-            this.vel.f = 1;
-        }
-
-        item.reset(item.siz.w / 2);
-
-        Game.items[item.uid] = item;
-        return item;
-
-    }
-
 };
