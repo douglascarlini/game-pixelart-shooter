@@ -46,7 +46,7 @@ class Make {
 
     }
 
-    static shot(x, y, r, s = 18) {
+    static shot(x, y, r, s = 27) {
 
         var item = new Item({ cat: 'shot', pos: { x, y }, siz: { w: s, h: s }, spr: { img: Game.img.shot, w: s, h: s } });
 
