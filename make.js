@@ -125,7 +125,7 @@ class Make {
             this.pos.z = 0.5 + Math.random() * 0.5;
             this.pos.y = Math.random() * Game.h;
             this.att.alpha = this.pos.z * 80;
-            this.vel.x = -this.pos.z * 2.5 + this.pos.z / 2;
+            this.vel.x = -this.pos.z * 2.5;
             this.pos.x = min + add;
             this.vel.f = 1;
 
