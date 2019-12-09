@@ -20,11 +20,13 @@ class Make {
 
             if (Game.pad[90] && this.aux.shotCnt > 5) {
 
-                var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + 55, 12);
+                var a = 55, b = 12;
+
+                var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + a, b);
                 Make.shot(x, y, this.pos.r);
                 Make.capsule(x, y);
 
-                var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + 55, 12);
+                var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + a, b);
                 var burst = Make.gunfire(x, y);
 
                 this.aux.shotCnt = 0;
