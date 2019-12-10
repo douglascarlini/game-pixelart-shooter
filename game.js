@@ -4,7 +4,7 @@ class Game {
 
         Game.scale = 1;
 
-        Game.img = { ship: null, shot: null, fire: null, star: null, capsule: null, gunfire: null };
+        Game.img = { ship: null, shot: null, fire: null, star: null, capsule: null, gunfire: null, trail: null };
         Game.pad = { 37: false, 38: false, 39: false, 40: false, 90: false };
         window.addEventListener('keydown', Game.key1, false);
         window.addEventListener('keyup', Game.key0, true);
