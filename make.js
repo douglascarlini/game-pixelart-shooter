@@ -88,6 +88,23 @@ class Make {
 
     }
 
+    static trail(x, y, z, r, s = 18) {
+
+        var u = 3;
+        x = x + (-u + Math.random() * (u * 2)), y = y + (-u + Math.random() * (u * 2));
+
+        var item = new Item({ cat: 'fire', pos: { x, y }, siz: { w: s, h: s }, spr: { img: Game.img.fire, len: 15, rep: false, die: true, w: s, h: s } });
+
+        item.pos.z = 0.2 + z / 50 + Math.random() * 0.4;
+        item.pos.r = -3 + r + Math.random() * 6;
+        item.vel.a = -(Math.random() * 9.0);
+        item.vel.x = -Calc.rnd(10);
+
+        Game.items[item.uid] = item;
+        return item;
+
+    }
+
     static capsule(x, y, s = 18) {
 
         var item = new Item({ cat: 'capsule', pos: { x, y }, siz: { w: s, h: s }, spr: { img: Game.img.capsule, w: s, h: s } });
