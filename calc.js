@@ -36,4 +36,11 @@ class Calc {
 
     }
 
+    static rng(val, minA, maxA, minB, maxB) {
+        var p = ((val - minA) * 100) / (maxA - minA)
+        var x = (100 - p) * minB / 100
+        var f = p * maxB / 100
+        return x + f
+    }
+
 };
