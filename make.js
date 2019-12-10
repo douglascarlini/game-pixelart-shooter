@@ -100,7 +100,7 @@ class Make {
         var u = 3;
         x = x + (-u + Math.random() * (u * 2)), y = y + (-u + Math.random() * (u * 2));
 
-        var item = new Item({ cat: 'trail', pos: { x, y }, siz: { w: s, h: s }, spr: { img: Game.img.fire, len: 10, rep: false, die: true, w: s, h: s } });
+        var item = new Item({ cat: 'trail', pos: { x, y }, siz: { w: s, h: s }, spr: { img: Game.img.trail, len: 10, rep: false, die: true, w: s, h: s } });
 
         item.pos.z = 0.2 + z / 50 + Math.random() * 0.4;
         item.pos.r = -3 + r + Math.random() * 6;
