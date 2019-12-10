@@ -20,4 +20,4 @@ function rangePercentage(input, range_min, range_max, range_2ndMax) {
     return percentage;
 }
 
-console.log(rangePercentage(1, 0.3, 1.0, 5.0))
+console.log(rangePercentage(1, 0.1, 1.0, 5.0))
