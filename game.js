@@ -90,7 +90,7 @@ class Game {
 
         Game.ctx.save();
 
-        var alpha = (item.att.alpha / 100) + 0.3;
+        var alpha = (item.att.alpha / 100) + 0.1;
 
         Game.ctx.globalAlpha = alpha;
         Game.ctx.globalCompositeOperation = item.att.gco;
