@@ -81,7 +81,7 @@ class Game {
         Game.ctx.shadowBlur = 10;
         Game.ctx.fillStyle = color;
         Game.ctx.shadowColor = color;
-        Game.ctx.fillText(text, 2, fs);
+        Game.ctx.fillText(text, x, y);
         Game.ctx.restore();
 
     }
