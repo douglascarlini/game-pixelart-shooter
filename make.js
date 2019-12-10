@@ -37,7 +37,7 @@ class Make {
             if (this.pos.x < this.siz.w / 2)
                 this.vel.x += Math.random() * 10;
 
-            this.pos.r = this.vel.y * 2;
+            this.pos.r = this.vel.y * 5;
 
             var shake = 1;
             this.pos.x = this.pos.x + Calc.rnd((shake * 2), -shake, true);
