@@ -44,8 +44,8 @@ class Make {
             this.pos.y = this.pos.y + Calc.rnd((shake * 2), -shake, true);
 
             if (this.aux.shotCnt > 5) {
-                var x = this.pos.x + Calc.rnd(this.siz.w);
-                var y = this.pos.y + Calc.rnd(this.siz.h);
+                var x = (this.pos.x - this.siz.w / 2) + Calc.rnd(this.siz.w);
+                var y = (this.pos.y - this.siz.h / 2) + Calc.rnd(this.siz.h);
                 Make.trail(x, y, this.vel.x, this.pos.r);
             }
 
