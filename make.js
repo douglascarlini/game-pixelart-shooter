@@ -88,7 +88,7 @@ class Make {
 
     }
 
-    static trail(x, y, z, r, s = 18) {
+    static trail(x, y, z, r, s = 96) {
 
         var u = 3;
         x = x + (-u + Math.random() * (u * 2)), y = y + (-u + Math.random() * (u * 2));
