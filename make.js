@@ -46,7 +46,7 @@ class Make {
             if (this.aux.shotCnt > 5) {
                 var x = this.pos.x + Calc.rnd(this.siz.w);
                 var y = this.pos.y + Calc.rnd(this.siz.h);
-                Make.trail(x, y, this.vel.x, this.pos.r);
+                // Make.trail(x, y, this.vel.x, this.pos.r);
             }
 
         };
