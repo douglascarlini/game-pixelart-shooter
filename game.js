@@ -90,7 +90,7 @@ class Game {
 
         Game.ctx.save();
 
-        Game.text(item.vel.x, item.pos.x, item.pos.y)
+        Game.text(item.vel.x.toFixed(2), item.pos.x, item.pos.y)
 
         var alpha = (item.att.alpha / 100);
 
