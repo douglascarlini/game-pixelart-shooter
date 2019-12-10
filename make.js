@@ -126,7 +126,7 @@ class Make {
 
             this.pos.z = a + Math.random() * (b - a);
 
-            var v = calc.rng(this.pos.z, a, b, c, d);
+            var v = Calc.rng(this.pos.z, a, b, c, d);
 
             this.pos.y = Math.random() * Game.h;
             this.att.alpha = this.pos.z * 80;
