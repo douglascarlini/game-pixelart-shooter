@@ -128,7 +128,8 @@ class Make {
 
             var p = ((this.pos.z - a) * 100) / (b - a);
             var f = p * d / 100;
-            var v = ;
+            var x = (100 - p) * d / 100;
+            var v = a;
 
             this.pos.y = Math.random() * Game.h;
             this.att.alpha = this.pos.z * 80;
