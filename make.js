@@ -106,9 +106,9 @@ class Make {
 
     }
 
-    static gunfire(x, y, s = 36) {
+    static gunfire(x, y, r = 0, s = 36) {
 
-        var item = new Item({ cat: 'gunfire', pos: { x, y }, siz: { w: s, h: s }, spr: { img: Game.img.gunfire, w: s, h: s } });
+        var item = new Item({ cat: 'gunfire', pos: { x, y, r }, siz: { w: s, h: s }, spr: { img: Game.img.gunfire, w: s, h: s } });
 
         item.custom = function () { this.att.alpha *= 0.8; }
 
