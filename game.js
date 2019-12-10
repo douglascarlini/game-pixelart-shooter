@@ -17,7 +17,7 @@ class Game {
         Game.cnv.width = Game.w;
         Game.last = new Date();
         Game.vel = 1 / 10;
-        Game.glow = false;
+        Game.glow = true;
         Game.items = {};
         Game.fps = 60;
         Game.uid = 0;
