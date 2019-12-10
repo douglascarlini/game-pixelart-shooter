@@ -122,7 +122,7 @@ class Make {
 
         item.reset = function (min = 0, add = 0) {
 
-            var a = 0.3, b = 1.0, c = 0.1, d = 5.0;
+            var a = 0.3, b = 2.0, c = 0.1, d = 5.0;
 
             this.pos.z = a + Math.random() * (b - a);
 
