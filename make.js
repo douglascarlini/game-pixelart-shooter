@@ -43,12 +43,6 @@ class Make {
             this.pos.x = this.pos.x + Calc.rnd((shake * 2), -shake, true);
             this.pos.y = this.pos.y + Calc.rnd((shake * 2), -shake, true);
 
-            // if (this.aux.shotCnt > 5) {
-            var x = (this.pos.x - this.siz.w / 2) + Calc.rnd(this.siz.w / 2);
-            var y = (this.pos.y - this.siz.h / 4) + Calc.rnd(this.siz.h / 2);
-            Make.trail(x, y, this.vel.x, this.pos.r);
-            // }
-
         };
 
         Game.items[item.uid] = item;
