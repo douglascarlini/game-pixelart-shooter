@@ -90,6 +90,8 @@ class Game {
 
         Game.ctx.save();
 
+        Game.text(item.vel.x, item.pos.x, item.pos.y)
+
         var alpha = (item.att.alpha / 100);
 
         Game.ctx.globalAlpha = alpha;
