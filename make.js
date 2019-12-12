@@ -55,9 +55,58 @@ class Make {
 
     }
 
-    static shot(x, y, r, s = 27) {
+    static enemy1(s = 128) {
 
-        var item = new Item({ cat: 'shot', pos: { x, y }, siz: { w: s, h: s }, spr: { img: Game.img.shot, w: s, h: s } });
+        var item = new Item({ pos: { y: (Game.h / 2), x: 500 }, siz: { w: s, h: s }, cat: 'enemy1', spr: { img: Game.img.enemy1, w: s, h: s } });
+
+        item.custom = function () {
+
+            var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + 175, this.siz.w / 2.3);
+
+            if (this.vel.x > -1) Make.fire(x, y, this.vel.x, this.pos.r);
+
+            this.aux.shotCnt++;
+
+            if (this.aux.shotCnt > 25) {
+
+                var a = 28, b = 20;
+
+                var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + a, b);
+                Make.shot(x, y, this.pos.r, ['ship']);
+                Make.capsule(x, y);
+
+                var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + a, b);
+                var burst = Make.gunfire(x, y, this.pos.r);
+
+                this.aux.shotCnt = 0;
+                Game.play('shot');
+
+            }
+
+            if (this.pos.x < this.siz.w / 2)
+                this.vel.x += Math.random() * 10;
+
+            this.pos.r = this.vel.y;
+
+            var shake = 1;
+            this.pos.x = this.pos.x + Calc.rnd((shake * 2), -shake, true);
+            this.pos.y = this.pos.y + Calc.rnd((shake * 2), -shake, true);
+
+            var x = (this.pos.x - this.siz.w / 2) + Calc.rnd(this.siz.w / 2);
+            var y = (this.pos.y - this.siz.h / 4) + Calc.rnd(this.siz.h / 2);
+            Make.trail(x, y, this.vel.x, this.pos.r);
+
+        };
+
+        Game.items[item.uid] = item;
+        item.aux.shotCnt = 0;
+        return item;
+
+    }
+
+    static shot(x, y, r, bad = [], s = 27) {
+
+        var item = new Item({ cat: 'shot', bad, pos: { x, y }, siz: { w: s, h: s }, spr: { img: Game.img.shot, w: s, h: s } });
 
         item.att.glow.siz = 10;
         item.aim = true;

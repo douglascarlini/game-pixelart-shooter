@@ -4,20 +4,23 @@ class Game {
 
         Game.scale = 1;
 
-        Game.img = { ship: null, shot: null, fire: null, star: null, capsule: null, gunfire: null, trail: null };
+        Game.img = { ship: null, shot: null, fire: null, star: null, capsule: null, gunfire: null, trail: null, enemy1: null };
         Game.pad = { 37: false, 38: false, 39: false, 40: false, 90: false };
         window.addEventListener('keydown', Game.key1, false);
         window.addEventListener('keyup', Game.key0, true);
         Game.cnv = document.getElementById('canvas');
         Game.ctx = Game.cnv.getContext('2d');
+        Game.nn = new RedeNeural(2, 3, 1);
         Game.w = 1280 * Game.scale;
         Game.h = 720 * Game.scale;
         Game.snd = { shot: null };
         Game.cnv.height = Game.h;
         Game.cnv.width = Game.w;
         Game.last = new Date();
+        Game.trained = false;
         Game.vel = 1 / 10;
         Game.glow = false;
+        Game.dataset = [];
         Game.items = {};
         Game.fps = 60;
         Game.uid = 0;
@@ -114,6 +117,24 @@ class Game {
         Game.snd[name].volume = 0.3;
         Game.snd[name].currentTime = 0;
         Game.snd[name].play();
+    }
+
+    static train() {
+
+        if (!Game.trained) {
+
+            for (var i = 0; i < 10000; i++) {
+                var index = Math.floor(Math.random() * 4);
+                Game.nn.train(Game.dataset.inputs[index], Game.dataset.outputs[index]);
+            }
+
+            if (Game.nn.predict([0, 0])[0] < 0.04 && nn.predict([1, 0])[0] > 0.98) {
+                Game.trained = true;
+                console.log("FIM!");
+            }
+
+        }
+
     }
 
 };

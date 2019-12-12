@@ -10,6 +10,7 @@ class Item {
         this.uid = ++Game.uid;
         this.aim = false;
         this.cat = 'x';
+        this.bad = [];
         this.aux = {};
 
         this.load(conf);
@@ -37,6 +38,13 @@ class Item {
     }
 
     move() {
+
+        for (var uid in Game.items) {
+            var item = Game.items[uid];
+            if (this.bad.indexOf(item.cat) < 0) continue;
+            var { dd } = Calc.dst(this.pos.x, this.pos.y, item.pos.x, item.pos.y);
+            if (dd < 20) delete Game.items[this.uid];
+        }
 
         if (this.aim) {
 
