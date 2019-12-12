@@ -44,9 +44,11 @@ class Matrix {
         })
     }
 
-    static map(matrix, func) {
+    static map(A, func) {
 
-        matrix.data = matrix.data.map((arr, i) => {
+        let matrix = new Matrix(A.rows, A.cols);
+
+        matrix.data = A.data.map((arr, i) => {
             return arr.map((num, j) => {
                 return func(num, i, j);
             })

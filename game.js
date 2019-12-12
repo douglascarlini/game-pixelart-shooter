@@ -9,18 +9,19 @@ class Game {
         window.addEventListener('keydown', Game.key1, false);
         window.addEventListener('keyup', Game.key0, true);
         Game.cnv = document.getElementById('canvas');
+        Game.dataset = { inputs: [], outputs: [] };
         Game.ctx = Game.cnv.getContext('2d');
-        Game.nn = new RedeNeural(2, 3, 1);
+        Game.nn = new RedeNeural(3, 4, 5);
         Game.w = 1280 * Game.scale;
         Game.h = 720 * Game.scale;
         Game.snd = { shot: null };
         Game.cnv.height = Game.h;
         Game.cnv.width = Game.w;
         Game.last = new Date();
+        Game.training = false;
         Game.trained = false;
         Game.vel = 1 / 10;
         Game.glow = false;
-        Game.dataset = [];
         Game.items = {};
         Game.fps = 60;
         Game.uid = 0;
@@ -51,22 +52,23 @@ class Game {
 
     static loop() {
 
-        var items = Object.keys(Game.items).length;
-        Game.ctx.clearRect(0, 0, Game.w, Game.h);
-        Game.text(items, 10, 15);
+        if (!Game.training) {
 
-        for (let uid in Game.items) {
+            var items = Object.keys(Game.items).length;
+            Game.ctx.clearRect(0, 0, Game.w, Game.h);
 
-            let item = Game.items[uid];
+            Game.text(items, 10, 15);
+            Game.text(`${Game.dataset.inputs.length.toString().padStart(5, 0)}/1000`, 50, 15);
 
-            try {
+            for (let uid in Game.items) {
+
+                let item = Game.items[uid];
+
                 item.update();
                 item.custom();
-            } catch (e) {
-                console.log({ error: e.message, uid, item });
-            }
+                Game.draw(item);
 
-            Game.draw(item);
+            }
 
         }
 
@@ -113,25 +115,35 @@ class Game {
     }
 
     static play(name) {
-        Game.snd[name].pause();
-        Game.snd[name].volume = 0.3;
-        Game.snd[name].currentTime = 0;
-        Game.snd[name].play();
+        // Game.snd[name].pause();
+        // Game.snd[name].volume = 0.2;
+        // Game.snd[name].currentTime = 0;
+        // Game.snd[name].play();
     }
 
     static train() {
 
         if (!Game.trained) {
 
+            Game.training = true;
+
             for (var i = 0; i < 10000; i++) {
-                var index = Math.floor(Math.random() * 4);
+                var index = Math.floor(Math.random() * (Game.dataset.inputs.length - 1));
                 Game.nn.train(Game.dataset.inputs[index], Game.dataset.outputs[index]);
+                console.log(`treinando... ${i}/10000`);
             }
 
-            if (Game.nn.predict([0, 0])[0] < 0.04 && nn.predict([1, 0])[0] > 0.98) {
-                Game.trained = true;
-                console.log("FIM!");
-            }
+            console.log(`testando aprendizado...`);
+            var na = Game.nn.predict([100, 99]);
+            var ya = Game.nn.predict([100, 0]);
+
+            // if (na[4] < 0.10 && ya[4] > 0.40) {
+
+            Game.training = false;
+            Game.trained = true;
+            console.log("fim!");
+
+            // } else { console.log(na, ya); }
 
         }
 

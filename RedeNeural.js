@@ -79,6 +79,7 @@ class RedeNeural {
         // INPUT -> HIDDEN
         let input = Matrix.arrayToMatrix(arr);
 
+        console.log("hidden")
         let hidden = Matrix.multiply(this.weights_ih, input);
         hidden = Matrix.add(hidden, this.bias_ih);
 
@@ -86,6 +87,7 @@ class RedeNeural {
 
         // HIDDEN -> OUTPUT
 
+        console.log("output")
         let output = Matrix.multiply(this.weights_ho, hidden);
         output = Matrix.add(output, this.bias_ho);
 

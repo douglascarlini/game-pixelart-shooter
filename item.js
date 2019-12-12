@@ -4,12 +4,14 @@ class Item {
 
         this.spr = { img: new Image(), len: 0, rep: true, die: false, num: 0, w: 32, h: 32 };
         this.att = { alpha: 100, glow: { siz: 3, rgb: '#fff' }, gco: 'source-over' };
+        this.pad = { L: false, U: false, R: false, D: false, A: false };
         this.vel = { x: 0, y: 0, r: 0, f: 0.89, a: 1 };
         this.pos = { x: 0, y: 0, z: 1, r: 0 };
         this.siz = { w: 32, h: 32 };
         this.uid = ++Game.uid;
         this.aim = false;
         this.cat = 'x';
+        this.lif = 100;
         this.bad = [];
         this.aux = {};
 
@@ -62,6 +64,11 @@ class Item {
             this.vel.x *= this.vel.f;
             this.vel.y *= this.vel.f;
             this.vel.r *= this.vel.f;
+
+            if (this.pad.U) this.vel.y -= this.vel.a;
+            if (this.pad.D) this.vel.y += this.vel.a;
+            if (this.pad.L) this.vel.x -= this.vel.a;
+            if (this.pad.R) this.vel.x += this.vel.a;
 
         }
 
