@@ -171,11 +171,19 @@ class Make {
                 var a = 0, b = 30;
 
                 var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + a, b);
-                Make.shot2(x, y, this.pos.r, ['ship']);
+                var shot = Make.shot2(x, y, this.pos.r, ['ship']);
+                shot.hit = function (aim) {
+                    aim.lif--;
+                    if (aim.lif < 1) {
+                        delete Game.items[aim.uid];
+                        Make.ship();
+                    }
+                };
+
                 Make.capsule(x, y);
 
                 var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + a, b);
-                var burst = Make.gunfire(x, y, this.pos.r);
+                Make.gunfire(x, y, this.pos.r);
 
                 this.aux.shotCnt = 0;
                 Game.play('shot');
