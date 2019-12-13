@@ -11,7 +11,6 @@ class Game {
         Game.cnv = document.getElementById('canvas');
         Game.dataset = { inputs: [], outputs: [] };
         Game.ctx = Game.cnv.getContext('2d');
-        Game.nn = new RedeNeural(3, 4, 5);
         Game.w = 1280 * Game.scale;
         Game.h = 720 * Game.scale;
         Game.snd = { shot: null };
@@ -20,6 +19,8 @@ class Game {
         Game.last = new Date();
         Game.training = false;
         Game.trained = false;
+        Game.samples = 3000;
+        Game.epoch = 20000;
         Game.vel = 1 / 10;
         Game.glow = false;
         Game.items = {};
@@ -27,6 +28,8 @@ class Game {
         Game.uid = 0;
         Game.load();
         Game.loop();
+
+        Game.nn = new NeuralNetwork(2, 20, 5);
 
     }
 
@@ -58,7 +61,7 @@ class Game {
             Game.ctx.clearRect(0, 0, Game.w, Game.h);
 
             Game.text(items, 10, 15);
-            Game.text(`${Game.dataset.inputs.length.toString().padStart(5, 0)}/1000`, 50, 15);
+            Game.text(`${Game.dataset.inputs.length.toString().padStart(5, 0)}/${Game.samples}`, 50, 15);
 
             for (let uid in Game.items) {
 
@@ -127,23 +130,15 @@ class Game {
 
             Game.training = true;
 
-            for (var i = 0; i < 10000; i++) {
+            for (var i = 0; i < Game.epoch; i++) {
+
                 var index = Math.floor(Math.random() * (Game.dataset.inputs.length - 1));
                 Game.nn.train(Game.dataset.inputs[index], Game.dataset.outputs[index]);
-                console.log(`treinando... ${i}/10000`);
+
             }
 
-            console.log(`testando aprendizado...`);
-            var na = Game.nn.predict([100, 99]);
-            var ya = Game.nn.predict([100, 0]);
-
-            // if (na[4] < 0.10 && ya[4] > 0.40) {
-
-            Game.training = false;
             Game.trained = true;
-            console.log("fim!");
-
-            // } else { console.log(na, ya); }
+            Game.training = false;
 
         }
 

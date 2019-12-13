@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Asteroids</title>
+    <style></style>
+    <script type="text/javascript" src="./neural-network-03.js"></script>
+</head>
+
+<body>
+    <canvas id="gameCanvas" width="760" height="570"></canvas>
+    <script>
+
+        let data = { i: [[0, 0], [0, 1], [0, 1], [1, 1]], o: [[0], [1], [1], [0]] };
+        let nn = new NeuralNetwork(2, 10, 1);
+
+        for (let i = 0; i < 20000; i++) {
+
+            let idx = Math.floor(Math.random() * (data.i.length - 1));
+            nn.train(data.i[idx], data.o[idx]);
+
+        }
+
+        let o = nn.feedForward([0, 1]);
+        console.log(o.data[0]);
+
+    </script>
+</body>
+
+</html>

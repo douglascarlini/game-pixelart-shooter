@@ -8,14 +8,22 @@ class Make {
 
             var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + 175, this.siz.w / 2.3);
 
-            if (this.vel.x > -1) Make.fire(x, y, this.vel.x, this.pos.r);
-            if (Game.pad[39]) Make.fire(x, y, this.vel.x, this.pos.r);
+            for (let uid in Game.items) {
+                var item = Game.items[uid];
+                if (item.cat != 'enemy1') continue;
+                var { dx, dy } = Calc.dst(this.pos.x, this.pos.y, item.pos.x, item.pos.y);
+                break;
+            }
 
-            if (Game.dataset.inputs.length > 1000 && !Game.trained) {
+            var inputs = [(dx / Game.w), (dy / Game.h)];
 
-                Game.train();
+            var U = this.pad.U ? 1 : 0;
+            var D = this.pad.D ? 1 : 0;
+            var L = this.pad.L ? 1 : 0;
+            var R = this.pad.R ? 1 : 0;
+            var A = this.pad.A ? 1 : 0;
 
-            } else if (!Game.trained) {
+            if (Game.dataset.inputs.length < Game.samples) {
 
                 this.pad.U = Game.pad[38];
                 this.pad.D = Game.pad[40];
@@ -23,51 +31,36 @@ class Make {
                 this.pad.R = Game.pad[39];
                 this.pad.A = Game.pad[90];
 
-                for (let uid in Game.items) {
-
-                    var item = Game.items[uid];
-                    if (item.cat != 'enemy1') continue;
-
-                    var { dx, dy } = Calc.dst(this.pos.x, this.pos.y, item.pos.x, item.pos.y);
-                    Game.dataset.inputs.push([dx, dy, item.pad.A]);
-
-                    var U = this.pad.U ? 1 : 0;
-                    var D = this.pad.D ? 1 : 0;
-                    var L = this.pad.L ? 1 : 0;
-                    var R = this.pad.R ? 1 : 0;
-                    var A = this.pad.A ? 1 : 0;
-
+                if (U || D || L || R || A) {
+                    Game.dataset.inputs.push(inputs);
                     Game.dataset.outputs.push([U, D, L, R, A]);
-                    break;
-
+                    console.log(inputs.map(n => n.toFixed(2)), [U, D, L, R, A]);
                 }
 
-            } else if (Game.trained) {
+            } else {
 
-                for (let uid in Game.items) {
+                if (Game.trained) {
 
-                    var item = Game.items[uid];
-                    if (item.cat != 'enemy1') continue;
+                    var o = Game.nn.feedForward(inputs);
 
-                    var { dx, dy } = Calc.dst(this.pos.x, this.pos.y, item.pos.x, item.pos.y);
+                    this.pad.U = (o.data[0][0] > 0.40);
+                    this.pad.D = (o.data[0][1] > 0.40);
+                    this.pad.L = (o.data[0][2] > 0.40);
+                    this.pad.R = (o.data[0][3] > 0.40);
+                    this.pad.A = (o.data[0][4] > 0.70);
 
-                    var o = Game.nn.predict([dx, dy, item.pad.A]);
-                    console.log(o.map(n => n.toFixed(2)));
+                    console.log(inputs.map(n => n.toFixed(2)), o.data[0].map(n => n.toFixed(2)));
 
-                    this.pad.U = (o[0] > 0.50);
-                    this.pad.D = (o[1] > 0.50);
-                    this.pad.L = (o[2] > 0.50);
-                    this.pad.R = (o[3] > 0.50);
-                    this.pad.A = (o[4] > 0.50);
+                } else {
 
-                    console.log(this.pad);
-
-                    break;
+                    Game.train();
 
                 }
 
             }
 
+            if (this.vel.x > -1) Make.fire(x, y, this.vel.x, this.pos.r);
+            if (Game.pad[39]) Make.fire(x, y, this.vel.x, this.pos.r);
 
             this.aux.shotCnt++;
 
@@ -76,25 +69,28 @@ class Make {
                 var a = 28, b = 20;
 
                 var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + a, b);
-                Make.shot(x, y, this.pos.r, ['enemy1']);
+                var shot = Make.shot(x, y, this.pos.r, ['enemy1']);
+                shot.hit = function (enemy) {
+                    enemy.lif--;
+                    if (enemy.lif < 1) {
+                        delete Game.items[enemy.uid];
+                        Make.enemy1();
+                    }
+                };
                 Make.capsule(x, y);
 
                 var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + a, b);
-                var burst = Make.gunfire(x, y, this.pos.r);
+                Make.gunfire(x, y, this.pos.r);
 
                 this.aux.shotCnt = 0;
                 Game.play('shot');
 
             }
 
-            if (this.pos.x < 0)
-                this.vel.x += 10;
-            if (this.pos.x > Game.w)
-                this.vel.x -= 10;
-            if (this.pos.y < 0)
-                this.vel.y += 10;
-            if (this.pos.y > Game.h)
-                this.vel.y -= 10;
+            if (this.pos.x < 0) { this.pos.x = Game.w / 2; this.pos.y = Game.h / 2; };//this.vel.x += 10;
+            if (this.pos.x > Game.w) { this.pos.x = Game.w / 2; this.pos.y = Game.h / 2; };//this.vel.x -= 10;
+            if (this.pos.y < 0) { this.pos.x = Game.w / 2; this.pos.y = Game.h / 2; };//this.vel.y += 10;
+            if (this.pos.y > Game.h) { this.pos.x = Game.w / 2; this.pos.y = Game.h / 2; };//this.vel.y -= 10;
 
             this.pos.r = this.vel.y;
 
@@ -105,6 +101,8 @@ class Make {
             var x = (this.pos.x - this.siz.w / 2) + Calc.rnd(this.siz.w / 2);
             var y = (this.pos.y - this.siz.h / 4) + Calc.rnd(this.siz.h / 2);
             Make.trail(x, y, this.vel.x, this.pos.r);
+
+            Game.text(this.lif, this.pos.x, this.pos.y - 20);
 
         };
 
@@ -131,7 +129,7 @@ class Make {
                 var item = Game.items[uid];
                 if (item.cat != 'ship') continue;
 
-                var { dx, dy } = Calc.dst(this.pos.x, this.pos.y, item.pos.x, item.pos.y);
+                // var { dx, dy } = Calc.dst(this.pos.x, this.pos.y, item.pos.x, item.pos.y);
 
                 // if (Game.trained) {
 
@@ -160,7 +158,7 @@ class Make {
 
                 }
 
-                this.pad.A = (Math.random() > 0.90);
+                this.pad.A = (Math.random() > 0.95);
 
                 // }
 
@@ -173,7 +171,7 @@ class Make {
                 var a = 0, b = 30;
 
                 var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + a, b);
-                Make.shot(x, y, this.pos.r, ['ship']);
+                Make.shot2(x, y, this.pos.r, ['ship']);
                 Make.capsule(x, y);
 
                 var { x, y } = Calc.orb(this.pos.x, this.pos.y, this.pos.r + a, b);
@@ -203,6 +201,8 @@ class Make {
             var y = (this.pos.y - this.siz.h / 4) + Calc.rnd(this.siz.h / 2);
             // Make.trail(x, y, this.vel.x, this.pos.r);
 
+            Game.text(this.lif, this.pos.x - 50, this.pos.y - 20);
+
         };
 
         Game.items[item.uid] = item;
@@ -222,7 +222,28 @@ class Make {
         item.vel.f = 1;
 
         item.custom = function () {
-            if (this.pos.x > Game.w) {
+            if (this.pos.x > Game.w || this.pos.x < 0) {
+                delete Game.items[this.uid];
+            }
+        }
+
+        Game.items[item.uid] = item;
+        return item;
+
+    }
+
+    static shot2(x, y, r, bad = [], s = 27) {
+
+        var item = new Item({ cat: 'shot2', bad, pos: { x, y }, siz: { w: s, h: s }, spr: { img: Game.img.shot, w: s, h: s } });
+
+        item.att.glow.siz = 10;
+        item.aim = true;
+        item.vel.a = 20;
+        item.pos.r = r;
+        item.vel.f = 1;
+
+        item.custom = function () {
+            if (this.pos.x > Game.w || this.pos.x < 0) {
                 delete Game.items[this.uid];
             }
         }

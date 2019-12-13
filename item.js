@@ -8,6 +8,7 @@ class Item {
         this.vel = { x: 0, y: 0, r: 0, f: 0.89, a: 1 };
         this.pos = { x: 0, y: 0, z: 1, r: 0 };
         this.siz = { w: 32, h: 32 };
+        this.hit = function () { };
         this.uid = ++Game.uid;
         this.aim = false;
         this.cat = 'x';
@@ -45,7 +46,7 @@ class Item {
             var item = Game.items[uid];
             if (this.bad.indexOf(item.cat) < 0) continue;
             var { dd } = Calc.dst(this.pos.x, this.pos.y, item.pos.x, item.pos.y);
-            if (dd < 20) delete Game.items[this.uid];
+            if (dd < 20) { this.hit(item); delete Game.items[this.uid]; }
         }
 
         if (this.aim) {
